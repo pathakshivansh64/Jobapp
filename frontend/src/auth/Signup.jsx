@@ -18,7 +18,7 @@ import { setloading } from "@/redux/jobslice";
 function Signup() {
     const {loading}=useSelector(store=>store.job)
     const{user}=useSelector(store=>store.auth)
-    console.log("6",loading)
+   
    
     const dispatch=useDispatch();
    
@@ -77,6 +77,7 @@ function Signup() {
        
         } catch (error) {
            toast.error(error.response.data.message)
+           console.log(error)
            
         }
         finally{
@@ -91,7 +92,7 @@ function Signup() {
         navigate('/');
       }
     })
-    console.log("7",loading)
+  
   return (
     <div>
       <Navbar /> 

@@ -10,6 +10,8 @@ import FilterCard from "./Filtercard";
 function Jobs() {
  const {alljobs,filtercards}=useSelector(store=>store.job)
  const [allfilteredcard,setallfilteredcards]=useState(alljobs);
+
+ console.log(alljobs)
  
 
  useEffect(()=>{
