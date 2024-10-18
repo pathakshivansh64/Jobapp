@@ -26,7 +26,7 @@ function CompanySetup() {
     
     const navigate=useNavigate();
     const {loading}=useSelector(store=>store.job)
-    console.log("2",loading)
+    
     const {singlecompany}=useSelector(store=>store.company)
     const dispatch=useDispatch();
 

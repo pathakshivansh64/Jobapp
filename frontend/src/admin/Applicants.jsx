@@ -23,7 +23,7 @@ function Applicants() {
             withCredentials:true
            })
           if(res.data.success){
-           console.log(res)
+           
             dispatch(setapplicants(res.data.job));
 
           }

@@ -15,13 +15,14 @@ function useGetAllJobs() {
         const fetchalljobs=async ()=>{
           try {
              const res=await axios.post(`${jobsApi}/getalljobs?keyword=${searchedquery}`,"",{ withCredentials:true})
+             console.log(res);
             
              if(res.data.success){
               dispatch(setjobs(res.data.jobs))
              }
           } catch (error) {
             toast.error(error.response.data.message)
-           
+            
           }
         }
 

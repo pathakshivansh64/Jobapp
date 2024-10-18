@@ -35,7 +35,7 @@ function Editjob() {
         })
     const {loading}=useSelector(store=>store.job)
     
-    console.log("1",loading)
+    
     const {companies}=useSelector(store=>store.company)
     const checkcompany = false;
 

@@ -23,7 +23,7 @@ function PostJob() {
   const {companies}=useSelector(store=>store.company)
  const {loading}=useSelector(store=>store.job)
  const dispatch=useDispatch();
-  console.log("3",loading)
+  
  
   
   const checkcompany = false;
