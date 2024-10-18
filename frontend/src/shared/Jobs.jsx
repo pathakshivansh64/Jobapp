@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import FilterCard from "./FilterCard";
+
 import Job from "./Job";
 import Footer from './Footer'
 import { useSelector } from "react-redux";
 import store from "@/redux/store";
 import { motion } from "framer-motion";
+import FilterCard from "./Filtercard";
 
 function Jobs() {
  const {alljobs,filtercards}=useSelector(store=>store.job)
