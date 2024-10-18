@@ -41,7 +41,7 @@ function Applicants() {
     <div>
       <Navbar/>
       <div className='max-w-7xl  mx-auto'>
-        <h1 className='font-bold text-lg my-2 mx-2'>Applicants ({applicants.appliction.length})</h1>
+        <h1 className='font-bold text-lg my-2 mx-2'>Applicants ({applicants?.appliction?.length})</h1>
 
         <ApplicantsTable/>
 

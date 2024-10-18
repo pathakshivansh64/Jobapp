@@ -47,8 +47,8 @@ function ApplicantsTable() {
         </TableHeader>
         <TableBody>
   {
-    applicants.appliction.length <=0?<span className="my-2 font-bold ">No One Applied Yet!</span>:(
-      applicants.appliction.map((applicant)=>{
+    applicants?.appliction?.length <=0?<span className="my-2 font-bold ">No One Applied Yet!</span>:(
+      applicants?.appliction?.map((applicant)=>{
         return(
           <>
         
