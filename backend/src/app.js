@@ -11,7 +11,7 @@ path:"./.env"
 const app = express();
 
 const corsoptions = {
-  origin: process.env.Frontend_URL||'https://jobapp-6va3.onrender.com',
+  origin: 'https://jobapp-6va3.onrender.com',
   credentials: true,
 };
 app.use(cookieParser());
