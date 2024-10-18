@@ -1,4 +1,4 @@
-export const userApi="http://localhost:4000/user"
-export const jobsApi="http://localhost:4000/jobs"
-export const applicationapi="http://localhost:4000/appliction"
-export const companyapi="http://localhost:4000/company"
+export const userApi="https://jobapp-6va3.onrender.comuser"
+export const jobsApi="https://jobapp-6va3.onrender.comjobs"
+export const applicationapi="https://jobapp-6va3.onrender.comappliction"
+export const companyapi="https://jobapp-6va3.onrender.comcompany"
