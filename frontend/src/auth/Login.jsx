@@ -16,6 +16,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleAuthwrapper } from "@/App";
 import { setloading } from "@/redux/jobslice";
+import { FallingLines } from "react-loader-spinner";
 
 
 
@@ -143,10 +144,14 @@ function Login() {
          </Button>:
           <Button
           type="submit"
-          className="border p-2 rounded bg-[#6A38C2] hover:bg-[#5b30a6] font-bold mt-3 w-full mb-3"
+          className=" p-2 rounded bg-white font-bold mt-3 w-full mb-3"
           disabled
         >
-         <Loader></Loader>
+          <FallingLines
+        color="#6A38C2"
+        width="100"
+        visible={true}
+        ariaLabel="falling-circles-loading"/>
         </Button>
 
 

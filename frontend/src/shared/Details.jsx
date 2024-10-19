@@ -6,9 +6,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { applicationapi, jobsApi } from "@/const";
 import { useDispatch, useSelector } from "react-redux";
-import {  addproduct, setsinglejob } from "@/redux/jobslice";
+import {  addproduct, setloading, setsinglejob } from "@/redux/jobslice";
 import store from "@/redux/store";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { FallingLines } from "react-loader-spinner";
 
 function Details() {
    
@@ -18,13 +20,15 @@ function Details() {
  
     const dispatch=useDispatch();
     const {user}=useSelector(store=>store.auth)
-    const {singlejob}=useSelector(store=>store.job)
+    const {singlejob,loading}=useSelector(store=>store.job)
+    
    
 
     
 
     useEffect(()=>{
       const fetchalljobs=async ()=>{
+        dispatch(setloading(true));
         try {
            const res=await axios.post(`${jobsApi}/getjobsbyID/${jobId}`,"",{ withCredentials:true})
           
@@ -35,6 +39,9 @@ function Details() {
         } catch (error) {
           toast.error(error.response.data.message)
          
+        }
+        finally{
+          dispatch(setloading(false));
         }
       }
 
@@ -71,7 +78,8 @@ function Details() {
   return (
     <div>
       <Navbar />
-      <div className="max-w-7xl mx-auto my-5 ">
+      {
+        !loading?<div className="max-w-7xl mx-auto my-5 ">
         <h1 className="font-bold text-xl">{singlejob?.title}</h1>
        <div className="flex justify-between">
        <div className="flex gap-2 my-2">
@@ -107,7 +115,14 @@ function Details() {
 
             
         </div>
-      </div>
+      </div>:
+      <div className="max-w-7xl mx-auto my-auto "><FallingLines
+      color="#6A38C2"
+      width="100"
+      visible={true}
+      ariaLabel="falling-circles-loading"
+      /></div>
+      }
     </div>
   );
 }

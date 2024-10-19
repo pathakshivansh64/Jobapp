@@ -1,5 +1,5 @@
 import { jobsApi } from '@/const'
-import { setjobs } from '@/redux/jobslice';
+import { setjobs, setloading } from '@/redux/jobslice';
 import store from '@/redux/store';
 import axios from 'axios'
 import React, { useEffect } from 'react'
@@ -8,11 +8,13 @@ import { toast } from 'sonner';
 
 function useGetAllJobs() {
       const dispatch=useDispatch();
-      const {searchedquery}=useSelector(store=>store.job)
+      const {searchedquery,loading}=useSelector(store=>store.job)
+      
     
      
     useEffect(()=>{
         const fetchalljobs=async ()=>{
+          dispatch(setloading(true))
           try {
              const res=await axios.post(`${jobsApi}/getalljobs?keyword=${searchedquery}`,"",{ withCredentials:true})
              console.log(res);
@@ -25,8 +27,11 @@ function useGetAllJobs() {
             console.log(error)
             
           }
+          finally{
+            dispatch(setloading(false))
+          }
         }
-
+    
         fetchalljobs();
     },[])
  

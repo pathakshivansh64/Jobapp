@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { setloading } from "@/redux/jobslice";
+import { FallingLines } from "react-loader-spinner";
 
 function Signup() {
     const {loading}=useSelector(store=>store.job)
@@ -179,13 +180,17 @@ function Signup() {
          >
            Signup
          </Button>:
-          <Button
-          type="submit"
-          className="border p-2 rounded bg-[#6A38C2] hover:bg-[#5b30a6] font-bold mt-3 w-full mb-3"
-          disabled
-        >
-         <Loader></Loader>
-        </Button>
+         <Button
+         type="submit"
+         className=" p-2 rounded bg-white font-bold mt-3 w-full mb-3"
+         disabled
+       >
+         <FallingLines
+       color="#6A38C2"
+       width="100"
+       visible={true}
+       ariaLabel="falling-circles-loading"/>
+       </Button>
 
 
 
