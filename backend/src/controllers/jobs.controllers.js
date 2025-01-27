@@ -161,7 +161,7 @@ const sendJobEmails = asynchandler(async (req, res) => {
           <h2>${job.title}</h2>
           <p>${job.description}</p>
           <p><strong>Experience Level:</strong> ${job.experience}</p>
-          <a href="http://localhost:5173/admin/jobs/${jobId}">Apply Here</a>
+          <a href="https://jobapp-6va3.onrender.com/admin/jobs/${jobId}">Apply Here</a>
           <p>This job was posted by your company.</p>
         `,
       };
