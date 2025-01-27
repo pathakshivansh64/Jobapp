@@ -4,15 +4,16 @@ import cloudinary from "../utility/Cloudinary.js";
 import getdatauri from "../utility/Datauri.js";
 import axios from 'axios';
 import {OAuth2Client} from '../utility/googleconfig.js'
+import nodemailer from "nodemailer"
 
-
+const tempUsers = new Map(); 
 
 
 const signup=(asynchandler(async(req,res)=>{
 
 
     const {fullname,email,password,phoneNumber,role}=req.body
-    
+    console.log(fullname,email,password,phoneNumber,role)
     
     if(!fullname||!email||!password||!phoneNumber||!role){
         return res.status(400).json({success:false,message:"Complete all Parameters"})
@@ -36,36 +37,88 @@ const signup=(asynchandler(async(req,res)=>{
         return res.status(400).json({success:false,message:"User already exists!!"})  
     }
    
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
-    user=await User.create({
+    tempUsers.set(email, {
         fullname,
         email,
         password,
         phoneNumber,
         role,
+        otp,
         profile:{
-           
-           profilephoto:cloudresponse?.secure_url
-           
-           
-            
+        profilephoto: cloudresponse?.secure_url
         }
-      
-
-    })
+    });
     
 
-    const createduser=await User.findById(user._id).select("-password");
     
 
-    if(!createduser){
-        return res.status(500).json({success:false,error:"Something went wrong while creating user"})
-    }
+    
+    
+     
+    
+    
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+  
+   const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Verify your email",
+        html: `<h2>Welcome, ${fullname}!</h2>
+               <p>Please verify your email by entering the otp:${otp}</p>`
+      };
+  
+      await transporter.sendMail(mailOptions);
 
     
-    return res.status(200).json({success:true,createduser,message:"User created successfully"})
+    return res.status(200).json({success:true,message:"Please verify your Email!"})
 
 } ))
+
+const verifyEmail = async (req, res) => {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+        return res.status(400).json({ success: false, message: "Email and OTP are required" });
+    }
+
+    const tempUser = tempUsers.get(email);
+
+    if (!tempUser) {
+        return res.status(404).json({ success: false, message: "No pending verification for this email." });
+    }
+
+    if (tempUser.otp !== otp) {
+        return res.status(400).json({ success: false, message: "Invalid OTP" });
+    }
+
+    // Create user entry in the database after successful verification
+    const user = await User.create({
+        fullname: tempUser.fullname,
+        email: tempUser.email,
+        password: tempUser.password,
+        phoneNumber: tempUser.phoneNumber,
+        role: tempUser.role,
+        profile: {
+            profilephoto: tempUser.profile.profilephoto
+        }
+    });
+
+    tempUsers.delete(email); // Remove the temporary user after verification
+    
+
+    return res.status(200).json({ success: true, message: "Email verified successfully. User registered." });
+  
+   
+  };
 
 const login=(asynchandler(async(req,res)=>{
 try {
@@ -247,4 +300,4 @@ const googlelogin=(asynchandler(async(req,res)=>{
   }
 }))
 
-export {signup,login,logout,updateprofile,googlelogin}
+export {signup,login,logout,updateprofile,googlelogin,verifyEmail}

@@ -72,7 +72,9 @@ function Signup() {
            
            if(res.data.success){
             toast.success(res.data.message);
-            navigate('/login');
+            const email=input.email
+            
+            navigate('/verify',{ state: { email } });
            }
           
        

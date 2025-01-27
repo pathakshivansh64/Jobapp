@@ -1,5 +1,7 @@
 import { Jobs } from "../models/jobs.js";
+import { User } from "../models/user.js";
 import { asynchandler } from "../utility/asynchandler.js";
+import nodemailer from "nodemailer"
 
 
 
@@ -28,6 +30,8 @@ const createjobs=(asynchandler(async(req,res)=>{
  
  
      })
+     
+     
  
      return res.status(200).json({success:true,job,message:"Job vacancy created successfully!"})
    } catch (error) {
@@ -121,4 +125,55 @@ const updatejob=asynchandler(async(req,res)=>{
 
 })
 
-export {createjobs,getalljobs,getjobsbyID,getadminjobs,updatejob}
+const sendJobEmails = asynchandler(async (req, res) => {
+    
+    const  jobId = req.params.id;
+    console.log(req.params.id,jobId);
+  
+    try {
+      // Find the job by ID
+      const job = await Jobs.findById(jobId);
+      if (!job) {
+        return res.status(404).json({ message: "Job not found" });
+      }
+  
+      // Find all students
+      const students = await User.find({ role: 'student' });
+  
+      // Extract email addresses from students
+      const emailAddresses = students.map(student => student.email).join(', ');  // Join emails into a single string
+  
+      // Configure Nodemailer transporter
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+  
+      // Email content
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: emailAddresses,  // List of candidate emails
+        subject: `Job Opportunity: ${job.title}`,
+        html: `
+          <h2>${job.title}</h2>
+          <p>${job.description}</p>
+          <p><strong>Experience Level:</strong> ${job.experience}</p>
+          <a href="http://localhost:5173/admin/jobs/${jobId}">Apply Here</a>
+          <p>This job was posted by your company.</p>
+        `,
+      };
+  
+      // Send emails
+      await transporter.sendMail(mailOptions);
+  
+      res.status(200).json({ message: "Emails sent to candidates successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Something went wrong" });
+    }
+  });
+  
+export {createjobs,getalljobs,getjobsbyID,getadminjobs,updatejob,sendJobEmails}

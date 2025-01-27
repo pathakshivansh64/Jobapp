@@ -79,7 +79,15 @@ function PostJob() {
 
      if(res.data.success){
       toast.success(res.data.message);
-     
+      const jobId=res.data.job._id;
+
+    try {
+        const sent=await axios.post(`${jobsApi}/sendemail/${jobId}`,{},{withCredentials:true})
+
+         
+    } catch (error) {
+      console.log(error)
+    }
       navigate('/admin/jobs')
      }
    } catch (error) {

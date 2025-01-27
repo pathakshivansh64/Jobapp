@@ -64,6 +64,7 @@ function Jobs() {
               <div className="grid grid-cols-3 gap-6 ">
                 {allfilteredcard.map((job) => (
                   <motion.div
+                  className='col-12 col-md-6 col-lg-3'
                   initial={{opacity:0,x:100}}
                   animate={{opacity:1,x:0}}
                   exit={{opacity:0,x:-100}}

@@ -15,6 +15,7 @@ const corsoptions = {
   credentials: true,
 };
 app.use(cookieParser());
+app.use(express.json());
 app.use(cors(corsoptions));
 
 app.use(express.json({ extended: true,limit: "16kb" }));

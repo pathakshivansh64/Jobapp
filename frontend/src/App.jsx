@@ -20,6 +20,7 @@ import GoogleLogin from './auth/GoogleLogin'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { useGoogleLogin } from '@react-oauth/google'
 import Editjob from './admin/Editjob'
+import Verify from './auth/Verify'
 
 
 export const GoogleAuthwrapper=()=>{
@@ -48,6 +49,10 @@ const approuter=createBrowserRouter([
   {
     path:'/signup',
     element:<Signup/>
+  },
+  {
+    path:'/verify',
+    element:<Verify/>
   },
   {
     path:'/jobs',
